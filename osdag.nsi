@@ -130,9 +130,15 @@ Function create_osdag_launcher
 	FileWrite $0 "$\r$\npython osdagMainPage.py"
 	FileWrite $0 "$\r$\n@REM Osdag was closed."
 	FileClose $0
+	FileOpen $0 "$INSTDIR\Osdag.vbs" w
+	FileWrite $0 "Set oShell = CreateObject ($\"Wscript.Shell$\")"
+	FileWrite $0 "$\r$\nDim strArgs"
+	FileWrite $0 "$\r$\nstrArgs = $\"cmd /c Osdag.bat$\""
+	FileWrite $0 "$\r$\noShell.Run strArgs, 0, false"
+	FileClose $0
 
-	;Create shortcut for Osdag.bat
-	CreateShortCut "$INSTDIR\Osdag.lnk" "$INSTDIR\Osdag.bat" "" "$INSTDIR\ResourceFiles\images\Osdag Icon.ico" "" SW_SHOWMINIMIZED
+	;Create shortcut for Osdag.vbs
+	CreateShortCut "$INSTDIR\Osdag.lnk" "$INSTDIR\Osdag.vbs" "" "$INSTDIR\ResourceFiles\images\Osdag Icon.ico" "" SW_SHOWMINIMIZED
 
 FunctionEnd
 
@@ -187,7 +193,7 @@ Section "OSDAG" SEC01
 		!insertmacro MUI_STARTMENU_WRITE_END
 
 		;Create Desktop shortcut
-		CreateShortCut "$DESKTOP\Osdag.lnk" "$INSTDIR\Osdag.bat" "" "$INSTDIR\ResourceFiles\images\Osdag Icon.ico" "" SW_SHOWMINIMIZED
+		CreateShortCut "$DESKTOP\Osdag.lnk" "$INSTDIR\Osdag.vbs" "" "$INSTDIR\ResourceFiles\images\Osdag Icon.ico" "" SW_SHOWMINIMIZED
 	SetDetailsPrint both
 	;-----------------------------------------------------------------------------------
 	;This section is for deleting all the files and folders which were copied temporarily to the $TEMP folder
